@@ -16,9 +16,7 @@ def call(body) {
         stages {
             stage('Git checkout') {
                 steps {
-                    steps {
-                        echo 'Git checkout'
-                    }
+                    echo 'Git checkout'
                 }
             }
             stage('Static code analysis & Code coverage') {
