@@ -13,9 +13,15 @@ def call(body) {
             maven 'maven3'
         }
 
+        options {
+            // This is required if you want to clean before build
+            skipDefaultCheckout(true)
+        }
+
         stages {
-            stage('Git checkout') {
+            stage('Clean workspace') {
                 steps {
+                    cleanWs()
                     echo 'Git checkout'
                 }
             }
