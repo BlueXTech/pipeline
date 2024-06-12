@@ -7,9 +7,20 @@ pipeline {
     }
 
     stages {
-        stage('Compile') {
+        stage('Git checkout') {
             steps {
 
+            }
+        }
+        stage('Static code analysis & Code coverage') {
+            // Jacoco
+            steps {
+                sh 'echo "Code coverage"'
+            }
+        }
+        stage('SonarQube analysis') {
+            steps {
+                sh 'echo "SonarQube analysis"'
             }
         }
         stage('Build') {
@@ -26,17 +37,7 @@ pipeline {
                 }
             }
         }
-        stage('Code coverage') {
-            // Jacoco
-            steps {
-                sh 'echo "Code coverage"'
-            }
-        }
-        stage('SonarQube analysis') {
-            steps {
-                sh 'echo "SonarQube analysis"'
-            }
-        }
+
         stage('Archive artifact') {
             steps {
                 sh 'echo "Archive"'
