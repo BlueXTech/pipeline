@@ -19,9 +19,8 @@ def call(body) {
         }
 
         stages {
-            stage('Clean workspace') {
+            stage('Do we need git checkout?') {
                 steps {
-                    cleanWs()
                     echo 'Git checkout'
                 }
             }
@@ -51,14 +50,24 @@ def call(body) {
                 }
             }
 
-            stage('Archive artifact') {
+            stage('Build Docker Image') {
                 steps {
-                    sh 'echo "Archive"'
+                    sh 'docker '
                 }
             }
-            stage('Deployment') {
+            stage('Push Docker Image to Dockerhub?') {
                 steps {
-                    sh 'echo "Deployment"'
+                    script {
+                        def response = input message: 'Push Docker Image to Dockerhub?',
+                        parameters: [choice(choices: 'Yes\nNo',
+                                            description: 'Proceed or Abort?',
+                                            name: 'What do do?')]
+
+                        if (response == 'Yes') {
+                            sh 'docker login'
+                            sh 'docker push'
+                        }
+                    }
                 }
             }
         }
