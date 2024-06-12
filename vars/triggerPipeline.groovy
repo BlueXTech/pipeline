@@ -52,7 +52,7 @@ def call(body) {
 
             stage('Build Docker Image') {
                 steps {
-                    sh 'docker -v'
+                    sh 'docker build -t ordika-image:1 .'
                 }
             }
             stage('Push Docker Image to Dockerhub?') {
