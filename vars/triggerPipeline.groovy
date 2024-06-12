@@ -13,10 +13,10 @@ def call(body) {
             maven 'maven3'
         }
 
-        options {
-            // This is required if you want to clean before build
-            skipDefaultCheckout(true)
-        }
+//        options {
+//            // This is required if you want to clean before build
+//            skipDefaultCheckout(true)
+//        }
 
         stages {
             stage('Do we need git checkout?') {
