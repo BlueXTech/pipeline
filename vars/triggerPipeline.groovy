@@ -52,7 +52,7 @@ def call(body) {
 
             stage('Build Docker Image') {
                 steps {
-                    sh 'docker '
+                    sh 'docker -v'
                 }
             }
             stage('Push Docker Image to Dockerhub?') {
