@@ -19,36 +19,30 @@ def call(body) {
 //        }
 
         stages {
-            stage('Do we need git checkout?') {
-                steps {
-                    echo 'Git checkout'
-                }
-            }
-
             stage('Static code analysis & Code coverage') {
                 // Jacoco
                 steps {
-                    sh 'echo "Code coverage"'
+                    echo "Code coverage"
                 }
             }
 
             stage('SonarQube analysis') {
                 steps {
-                    sh 'echo "SonarQube analysis"'
+                    echo "SonarQube analysis"
                 }
             }
 
             stage('Build') {
                 steps {
-                    sh 'mvn -Dmaven.test.failure.ignore=true clean package'
+                    sh "mvn -Dmaven.test.failure.ignore=true clean package"
                 }
 
                 post {
                     // If Maven was able to run the tests, even if some of the test
                     // failed, record the test results and archive the jar file.
                     success {
-                        junit '**/target/surefire-reports/TEST-*.xml'
-                        archiveArtifacts 'target/*.jar'
+                        junit "**/target/surefire-reports/TEST-*.xml"
+                        archiveArtifacts "target/*.jar"
                     }
                 }
             }
@@ -73,7 +67,7 @@ def call(body) {
                                     usernameVariable: 'USERNAME',
                                     passwordVariable: 'PASSWORD'
                             )]) {
-                                sh 'docker login --username $USERNAME --password $PASSWORD'
+                                sh "docker login --username $USERNAME --password $PASSWORD"
                                 sh "docker push limxuanhui/orang3:${env.BUILD_ID}"
                             }
                         }
