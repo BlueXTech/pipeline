@@ -24,17 +24,20 @@ def call(body) {
                     echo 'Git checkout'
                 }
             }
+
             stage('Static code analysis & Code coverage') {
                 // Jacoco
                 steps {
                     sh 'echo "Code coverage"'
                 }
             }
+
             stage('SonarQube analysis') {
                 steps {
                     sh 'echo "SonarQube analysis"'
                 }
             }
+
             stage('Build') {
                 steps {
                     sh 'mvn -Dmaven.test.failure.ignore=true clean package'
@@ -52,9 +55,10 @@ def call(body) {
 
             stage('Build Docker Image') {
                 steps {
-                    sh 'docker build -t ordika-image:1 .'
+                    sh 'docker build -t limxuanhui/orang3:latest .'
                 }
             }
+
             stage('Push Docker Image to Dockerhub?') {
                 steps {
                     script {
@@ -64,8 +68,13 @@ def call(body) {
                                             name: 'What do do?')]
 
                         if (response == 'Yes') {
-                            sh 'docker login'
-                            sh 'docker push'
+                            withCredentials([usernamePassword(
+                                    credentialsId: 'dockerhub-credentials',
+                                    usernameVariable: 'USERNAME',
+                                    passwordVariable: 'PASSWORD'
+                            )])
+                            sh 'docker login --username $USERNAME --password $PASSWORD'
+                            sh 'docker push limxuanhui/orang3:latest'
                         }
                     }
                 }
@@ -73,6 +82,11 @@ def call(body) {
         }
 
         post {
+            success {
+                echo 'One way or another, I have finished'
+                sh 'docker image remove limxuanhui/orang3:latest'
+//                deleteDir() /* clean up our workspace */
+            }
             failure {
                 mail to: pipelineParams.email, subject: 'Pipeline failed', body: "${env.BUILD_URL}"
             }
