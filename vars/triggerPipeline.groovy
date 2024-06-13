@@ -55,7 +55,7 @@ def call(body) {
 
             stage('Build Docker Image') {
                 steps {
-                    sh 'docker build -t limxuanhui/orang3:latest .'
+                    sh "docker build -t limxuanhui/orang3:${env.BUILD_ID} ."
                 }
             }
 
