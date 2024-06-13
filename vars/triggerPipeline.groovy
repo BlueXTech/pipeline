@@ -72,9 +72,10 @@ def call(body) {
                                     credentialsId: 'dockerhub-credentials',
                                     usernameVariable: 'USERNAME',
                                     passwordVariable: 'PASSWORD'
-                            )])
-                            sh 'docker login --username $USERNAME --password $PASSWORD'
-                            sh 'docker push limxuanhui/orang3:latest'
+                            )]) {
+                                sh 'docker login --username $USERNAME --password $PASSWORD'
+                                sh 'docker push limxuanhui/orang3:latest'
+                            }
                         }
                     }
                 }
@@ -82,8 +83,8 @@ def call(body) {
         }
 
         post {
-            success {
-                echo 'One way or another, I have finished'
+            always {
+                echo 'Cleaning up...'
                 sh 'docker image remove limxuanhui/orang3:latest'
 //                deleteDir() /* clean up our workspace */
             }
