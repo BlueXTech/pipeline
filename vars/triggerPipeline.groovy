@@ -73,8 +73,8 @@ def call(body) {
                                     usernameVariable: 'USERNAME',
                                     passwordVariable: 'PASSWORD'
                             )]) {
-                                sh 'docker login --username $USERNAME --password $PASSWORD'
-                                sh "docker push limxuanhui/orang3:{$env.BUILD_ID}"
+                                sh 'docker login --username $USERNAME'
+                                sh "docker push limxuanhui/orang3:${env.BUILD_ID}"
                                 sh "Build ID: ${env.BUILD_ID}"
                             }
                         }
