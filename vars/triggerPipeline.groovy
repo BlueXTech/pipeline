@@ -49,7 +49,7 @@ def call(body) {
 
             stage('Build Docker Image') {
                 steps {
-                    sh "docker build -t limxuanhui/orang3:${env.BUILD_ID} ."
+                    sh "docker build --platform linux/amd64 -t limxuanhui/orang3:${env.BUILD_ID} ."
                 }
             }
 
